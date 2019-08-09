@@ -13,9 +13,6 @@ endfunc
 set encoding=utf-8
 set autowriteall
 
-"set env variables from bashrc and zshrc
-set shellcmdflag=-ic
-
 "folding
 set foldmethod=indent
 set foldlevelstart=99 "open unfolded
