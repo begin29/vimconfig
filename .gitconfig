@@ -1,0 +1,28 @@
+[user]
+	email = vadym.motsukh@gmail.com
+	name = Vadym Motsukh
+[alias]
+  go = checkout
+  ch = checkout
+  br = branch
+  co = commit -m
+  st = status
+  last = log -1 HEAD
+  pub = "!git push -u origin $(git name-rev --name-only HEAD)"
+  unpublish = "!git push origin :$(git name-rev --name-only HEAD)"
+  cop = "!f() { git commit -m \"$@\" && git pub; }; f"
+  unstage = reset HEAD
+  aaco = "!git add . && git commit -m"
+  ad = add -p
+  follow = "!sh -c 'git log --topo-order -u -L $2,${3:-$2}:"$1"'" -
+
+[push]
+  default = simple
+[core]
+  editor = vim
+	excludesfile = ~/.gitignore
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
