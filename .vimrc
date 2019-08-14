@@ -197,6 +197,17 @@ set guioptions=
 hi StatusLineNC guibg=grey
 hi StatusLine guibg=white
 
+"send last clipboard to port mapped to local computer
+function SendToClipboard(content)
+  call system('nc -q0 localhost 2224', a:content)
+endfunction
+
+"autocmd run after yand, delete
+augroup AfterYankDelete
+  autocmd!
+  autocmd TextYankPost * call SendToClipboard(@")
+augroup END
+
 "TODO: ability to quick enable/disable
 "set spell spelllang=en_us
 "hi clear SpellBad
