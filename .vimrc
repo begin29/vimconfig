@@ -71,6 +71,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
+  Plug 'scrooloose/nerdtree'
   Plug 'ludovicchabant/vim-gutentags'
   Plug 'leafgarland/typescript-vim'
   Plug 'mhartington/oceanic-next'
@@ -102,11 +103,14 @@ let g:ycm_key_list_stop_completion = [ '<C-y>', '<Enter>' ]
 "set completeopt-=menuone
 
 "tree plugin style
-let g:netrw_liststyle = 3
-let g:netrw_banner = 0
-let g:netrw_browse_split = 4
-let g:netrw_winsize = 25
-let g:netrw_altv = 1
+"let g:netrw_liststyle = 3
+"let g:netrw_banner = 0
+"let g:netrw_browse_split = 4
+"let g:netrw_winsize = 25
+"let g:netrw_altv = 1
+
+nnoremap <silent> <F9> :NERDTreeToggle<CR>
+let NERDTreeIgnore = ['\.DS_Store$', '\.DAT$', '\.LOG1$', '\.LOG1$', '\.png$','\.jpg$','\.gif$','\.mp3$','\.flac$', '\.ogg$', '\.mp4$','\.avi$','.webm$','.mkv$','\.pdf$']
 
 "keymap
 set keymap=ukrainian-enhanced
@@ -196,17 +200,6 @@ set guioptions=
 "set text color for status line
 hi StatusLineNC guibg=grey
 hi StatusLine guibg=white
-
-"send last clipboard to port mapped to local computer
-function SendToClipboard(content)
-  call system('nc -q0 localhost 2224', a:content)
-endfunction
-
-"autocmd run after yand, delete
-augroup AfterYankDelete
-  autocmd!
-  autocmd TextYankPost * call SendToClipboard(@")
-augroup END
 
 "TODO: ability to quick enable/disable
 "set spell spelllang=en_us
