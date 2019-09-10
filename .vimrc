@@ -206,12 +206,17 @@ function SendToClipboard(content)
   call system('nc -q0 localhost 2224', a:content)
 endfunction
 
-"autocmd run after yand, delete
-augroup AfterYankDelete
-  autocmd!
-  autocmd TextYankPost * call SendToClipboard(@")
-augroup END
+"I'm on linux machine (remote then)
+if executable('lsb_release')
+  "autocmd run after yand, delete
+  augroup AfterYankDelete
+    autocmd!
+    autocmd TextYankPost * call SendToClipboard(@")
+  augroup END
+endif
 
+"commands
+command! -nargs=* GitBlame !git blame % -L <args>
 "TODO: ability to quick enable/disable
 "set spell spelllang=en_us
 "hi clear SpellBad
