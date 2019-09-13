@@ -217,6 +217,7 @@ endif
 
 "commands
 command! -nargs=* GitBlame !git blame % -L <args>
+command! -nargs=* GitLogHistory !git log --pretty=short -u -L <args>:%
 "TODO: ability to quick enable/disable
 "set spell spelllang=en_us
 "hi clear SpellBad
