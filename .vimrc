@@ -71,8 +71,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
-  Plug 'scrooloose/nerdtree'
-  Plug 'ludovicchabant/vim-gutentags'
+  Plug 'tpope/vim-vinegar'
+  "Plug 'ludovicchabant/vim-gutentags'
   Plug 'leafgarland/typescript-vim'
   Plug 'mhartington/oceanic-next'
   Plug 'kchmck/vim-coffee-script'
@@ -108,9 +108,6 @@ let g:ycm_key_list_stop_completion = [ '<C-y>', '<Enter>' ]
 "let g:netrw_browse_split = 4
 "let g:netrw_winsize = 25
 "let g:netrw_altv = 1
-
-nnoremap <silent> <F9> :NERDTreeToggle<CR>
-let NERDTreeIgnore = ['\.DS_Store$', '\.DAT$', '\.LOG1$', '\.LOG1$', '\.png$','\.jpg$','\.gif$','\.mp3$','\.flac$', '\.ogg$', '\.mp4$','\.avi$','.webm$','.mkv$','\.pdf$']
 
 "keymap
 set keymap=ukrainian-enhanced
