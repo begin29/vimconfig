@@ -72,7 +72,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'honza/vim-snippets'
 
   Plug 'tpope/vim-vinegar'
-  "Plug 'ludovicchabant/vim-gutentags'
   Plug 'leafgarland/typescript-vim'
   Plug 'mhartington/oceanic-next'
   Plug 'kchmck/vim-coffee-script'
@@ -227,6 +226,10 @@ endif
 "commands
 command! -nargs=* GitBlame !git blame % -L <args>
 command! -nargs=* GitLogHistory !git log --pretty=short -u -L <args>:%
+
+"insert current time/date
+nnoremap <F5> "='('.strftime("%c").')'<CR>p
+
 "TODO: ability to quick enable/disable
 "set spell spelllang=en_us
 "hi clear SpellBad
