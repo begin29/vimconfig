@@ -89,6 +89,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'joukevandermaas/vim-ember-hbs'
 call plug#end()
 
+"space after comment sign #nerdcommenter
+let g:NERDSpaceDelims = 1
+
 "ultisnips settings
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -177,7 +180,7 @@ colorscheme sublimemonokai "OceanicNext
 "colorscheme github
 
 "underline Search instead of highlight
-"hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=NONE guibg=NONE gui=underline
+hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=green guibg=NONE gui=underline,italic,bold
 
 "autocompletion menu's color
 "hi PmenuSel  guifg=NONE guibg=blue gui=NONE
