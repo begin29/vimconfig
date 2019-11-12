@@ -66,27 +66,29 @@ filetype plugin on
 
 call plug#begin('~/.vim/plugged')
   "https://www.sitepoint.com/effective-rails-development-vim/
-  Plug 'tpope/vim-rails'
+  " Plug 'tpope/vim-rails'
+
   "snipmate
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
   Plug 'tpope/vim-vinegar'
-  Plug 'leafgarland/typescript-vim'
-  Plug 'mhartington/oceanic-next'
-  Plug 'kchmck/vim-coffee-script'
   Plug 'scrooloose/nerdcommenter'
   Plug 'Yggdroot/indentLine'
-  Plug 'slim-template/vim-slim'
   Plug 'terryma/vim-multiple-cursors'
   Plug 'airblade/vim-gitgutter'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+
   Plug 'ErichDonGubler/vim-sublime-monokai'
-  Plug 'pangloss/vim-javascript'
+  Plug 'Rigellute/rigel'
+  Plug 'mhartington/oceanic-next'
+
+  " multiple syntax highlight
+  Plug 'sheerun/vim-polyglot'
+
   Plug 'crusoexia/vim-javascript-lib'
   Plug 'ycm-core/YouCompleteMe'
-  Plug 'joukevandermaas/vim-ember-hbs'
 call plug#end()
 
 "space after comment sign #nerdcommenter
@@ -166,8 +168,10 @@ noremap <F3> <C-W>_
 set hlsearch
 "let g:airline_theme='one'
 "
-let g:sublimemonokai_term_italic = 1
-colorscheme sublimemonokai "OceanicNext
+" let g:sublimemonokai_term_italic = 1
+" colorscheme sublimemonokai "OceanicNext
+"
+colorscheme rigel
 
 "previous colorscheme
 "colorscheme github
@@ -182,11 +186,6 @@ colorscheme sublimemonokai "OceanicNext
 "underline Search instead of highlight
 hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=green guibg=NONE gui=underline,italic,bold
 
-"autocompletion menu's color
-"hi PmenuSel  guifg=NONE guibg=blue gui=NONE
-""hi Pmenu  guifg=#ffdd00 guibg=NONE gui=NONE
-"hi Pmenu ctermfg=15 ctermbg=0 guifg=#ffdd00 guibg=#000000
-
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
   copen
@@ -199,6 +198,7 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
 
+"autocompletion menu's color
 hi Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE
 hi PmenuSel ctermfg=NONE ctermbg=24 cterm=NONE guifg=NONE guibg=#204a87 gui=NONE
 
@@ -209,8 +209,8 @@ hi PmenuSel ctermfg=NONE ctermbg=24 cterm=NONE guifg=NONE guibg=#204a87 gui=NONE
 set guioptions=
 
 "set text color for status line
-hi StatusLineNC guibg=grey
-hi StatusLine guibg=white
+" hi StatusLineNC guibg=grey
+" hi StatusLine guibg=white
 
 "send last clipboard to port mapped to local computer
 function SendToClipboard(content)
