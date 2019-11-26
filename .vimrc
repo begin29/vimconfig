@@ -200,6 +200,10 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
 
+"fzf files command with additional options
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
+
 let g:ctrlsf_auto_close = {
   \ "normal" : 0,
   \ "compact": 0
