@@ -68,10 +68,6 @@ call plug#begin('~/.vim/plugged')
   "https://www.sitepoint.com/effective-rails-development-vim/
   " Plug 'tpope/vim-rails'
 
-  Plug 'ludovicchabant/vim-gutentags'
-  let g:gutentags_ctags_exclude = ['*.css', '*.html']
-  let g:gutentags_cache_dir = '~/.vim/gutentags'
-
   "snipmate
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
@@ -85,6 +81,16 @@ call plug#begin('~/.vim/plugged')
   Plug 'dyng/ctrlsf.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+  let g:fzf_action = {
+    \ 'ctrl-q': function('s:build_quickfix_list'),
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-x': 'split',
+    \ 'ctrl-v': 'vsplit' }
+  "fzf files command with additional options
+  command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
+  let g:fzf_tags_command = 'ctags -R --exclude=.git --exclude=node_modules --exclude=tmp --exclude=bower_components'
+
 
   Plug 'ErichDonGubler/vim-sublime-monokai'
   Plug 'Rigellute/rigel'
@@ -197,16 +203,6 @@ function! s:build_quickfix_list(lines)
   copen
   cc
 endfunction
-
-let g:fzf_action = {
-  \ 'ctrl-q': function('s:build_quickfix_list'),
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
-"fzf files command with additional options
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
 
 let g:ctrlsf_auto_close = {
   \ "normal" : 0,
