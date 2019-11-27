@@ -68,6 +68,10 @@ call plug#begin('~/.vim/plugged')
   "https://www.sitepoint.com/effective-rails-development-vim/
   " Plug 'tpope/vim-rails'
 
+  Plug 'ludovicchabant/vim-gutentags'
+  let g:gutentags_ctags_exclude = ['*.css', '*.html']
+  let g:gutentags_cache_dir = '~/.vim/gutentags'
+
   "snipmate
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
