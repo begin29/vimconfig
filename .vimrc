@@ -64,6 +64,12 @@ filetype on
 filetype indent on
 filetype plugin on
 
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
 call plug#begin('~/.vim/plugged')
   "https://www.sitepoint.com/effective-rails-development-vim/
   " Plug 'tpope/vim-rails'
@@ -197,12 +203,6 @@ colorscheme rigel
 
 "underline Search instead of highlight
 hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=green guibg=NONE gui=underline,italic,bold
-
-function! s:build_quickfix_list(lines)
-  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-  copen
-  cc
-endfunction
 
 let g:ctrlsf_auto_close = {
   \ "normal" : 0,
