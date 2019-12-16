@@ -189,9 +189,9 @@ set hlsearch
 "let g:airline_theme='one'
 "
 " let g:sublimemonokai_term_italic = 1
-" colorscheme sublimemonokai "OceanicNext
+colorscheme OceanicNext
 "
-colorscheme rigel
+" colorscheme ron
 
 "previous colorscheme
 "colorscheme github
