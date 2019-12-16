@@ -82,7 +82,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'scrooloose/nerdcommenter'
   Plug 'Yggdroot/indentLine'
   Plug 'terryma/vim-multiple-cursors'
+
   Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
 
   Plug 'dyng/ctrlsf.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
