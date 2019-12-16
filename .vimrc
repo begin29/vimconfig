@@ -243,6 +243,7 @@ endif
 command! -nargs=* GitBlame !git blame % -L <args>
 command! -nargs=* GitLogHistory !git log --pretty=short -u -L <args>:%
 
+command! -nargs=* TODOFind vimgrep /TODO/ **/*<args>
 "insert current time/date
 nnoremap <F5> "='('.strftime("%c").')'<CR>p
 
