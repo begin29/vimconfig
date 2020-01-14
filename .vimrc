@@ -20,7 +20,7 @@ set foldlevelstart=99 "open unfolded
 set clipboard=unnamed
 set number
 set ruler
-set nocursorline
+set cursorline
 
 "stop blinking cursor
 set guicursor+=a:blinkon0
@@ -188,10 +188,9 @@ noremap <F3> <C-W>_
 set hlsearch
 "let g:airline_theme='one'
 "
-" let g:sublimemonokai_term_italic = 1
-colorscheme OceanicNext
+" colorscheme OceanicNext
 "
-" colorscheme ron
+colorscheme sublimemonokai
 
 "previous colorscheme
 "colorscheme github
@@ -201,10 +200,9 @@ colorscheme OceanicNext
 "colo two-firewatch
 "set background=dark
 "set background=light
-"colorscheme github
 
 "underline Search instead of highlight
-hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=green guibg=NONE gui=underline,italic,bold
+" hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=green guibg=NONE gui=underline,italic,bold
 
 let g:ctrlsf_auto_close = {
   \ "normal" : 0,
@@ -221,9 +219,12 @@ hi PmenuSel ctermfg=NONE ctermbg=24 cterm=NONE guifg=NONE guibg=#204a87 gui=NONE
 "remove scrollbars (macvim)
 set guioptions=
 
-"set text color for status line
-" hi StatusLineNC guibg=grey
-" hi StatusLine guibg=white
+if g:colors_name == 'sublimemonokai'
+  "set text color for status line
+  hi StatusLineNC guibg=grey
+  hi StatusLine guibg=white
+  let g:sublimemonokai_term_italic = 1
+endif
 
 "send last clipboard to port mapped to local computer
 function SendToClipboard(content)
