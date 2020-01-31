@@ -94,6 +94,7 @@ call plug#begin('~/.vim/plugged')
     \ 'ctrl-t': 'tab split',
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit' }
+  let g:ctrlsf_regex_pattern = 0
   "fzf files command with additional options
   command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
@@ -126,7 +127,8 @@ let g:ycm_key_list_stop_completion = [ '<C-y>', '<Enter>' ]
 "set completeopt-=preview
 "set completeopt-=menuone
 
-"tree plugin style
+"Netrw settings
+let g:netrw_localrmdir='rm -r'
 "let g:netrw_liststyle = 3
 "let g:netrw_banner = 0
 "let g:netrw_browse_split = 4
