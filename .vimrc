@@ -100,10 +100,15 @@ call plug#begin('~/.vim/plugged')
     \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
   let g:fzf_tags_command = 'ctags -R --exclude=.git --exclude=node_modules --exclude=tmp --exclude=bower_components'
 
+  Plug 'chiedo/vim-case-convert'
 
+  Plug 'mileszs/ack.vim'
+
+  Plug 'blueshirts/darcula'
   Plug 'ErichDonGubler/vim-sublime-monokai'
   Plug 'Rigellute/rigel'
   Plug 'mhartington/oceanic-next'
+  Plug 'hzchirs/vim-material'
 
   " multiple syntax highlight
   Plug 'sheerun/vim-polyglot'
