@@ -1,4 +1,4 @@
-func Backspace()
+func! Backspace()
   if col('.') == 1
     if line('.')  != 1
       return  "\<ESC>kA\<Del>"
@@ -73,6 +73,8 @@ endfunction
 call plug#begin('~/.vim/plugged')
   "https://www.sitepoint.com/effective-rails-development-vim/
   " Plug 'tpope/vim-rails'
+
+  Plug 'vim-scripts/todo-txt.vim'
 
   "snipmate
   Plug 'SirVer/ultisnips'
@@ -229,7 +231,7 @@ if g:colors_name == 'sublimemonokai'
 endif
 
 "send last clipboard to port mapped to local computer
-function SendToClipboard(content)
+function! SendToClipboard(content)
   call system('nc -q0 localhost 2224', a:content)
 endfunction
 
