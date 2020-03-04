@@ -18,7 +18,7 @@ set foldmethod=indent
 set foldlevelstart=99 "open unfolded
 
 set clipboard=unnamed
-set number
+set relativenumber
 set ruler
 set cursorline
 
@@ -123,13 +123,12 @@ call plug#end()
 let g:NERDSpaceDelims = 1
 
 "ultisnips settings
-let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "YouCompleteMe
 let g:ycm_key_list_previous_completion=['<Up>']
-let g:ycm_key_list_stop_completion = [ '<C-y>', '<Enter>' ]
+let g:ycm_key_list_stop_completion = [ '<C-y>' ]
 "let g:ycm_auto_trigger=0
 "set completeopt-=preview
 "set completeopt-=menuone
@@ -254,6 +253,9 @@ command! -nargs=* GitBlame !git blame % -L <args>
 command! -nargs=* GitLogHistory !git log --pretty=short -u -L <args>:%
 
 command! -nargs=* TODOFind vimgrep /TODO/ **/*<args>
+
+nmap     <C-f>f <Plug>CtrlSFPrompt
+
 "insert current time/date
 nnoremap <F5> "='('.strftime("%c").')'<CR>p
 
