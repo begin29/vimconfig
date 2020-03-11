@@ -216,6 +216,11 @@ let g:ctrlsf_auto_close = {
   \ "normal" : 0,
   \ "compact": 0
   \}
+let g:ctrlsf_position = 'top'
+let g:ctrlsf_auto_focus = {
+  \ "at": "start"
+  \ }
+let g:ctrlsf_winsize = '30%'
 
 "autocompletion menu's color
 hi Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE
