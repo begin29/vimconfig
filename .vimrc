@@ -76,6 +76,8 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'vim-scripts/todo-txt.vim'
 
+  Plug 'MattesGroeger/vim-bookmarks'
+
   "snipmate
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
@@ -96,7 +98,6 @@ call plug#begin('~/.vim/plugged')
     \ 'ctrl-t': 'tab split',
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit' }
-  let g:ctrlsf_regex_pattern = 0
   "fzf files command with additional options
   command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
@@ -106,6 +107,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'mileszs/ack.vim'
 
+  Plug 'altercation/vim-colors-solarized'
   Plug 'blueshirts/darcula'
   Plug 'ErichDonGubler/vim-sublime-monokai'
   Plug 'Rigellute/rigel'
@@ -212,6 +214,7 @@ colorscheme sublimemonokai
 "underline Search instead of highlight
 " hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=green guibg=NONE gui=underline,italic,bold
 
+let g:ctrlsf_regex_pattern = 0
 let g:ctrlsf_auto_close = {
   \ "normal" : 0,
   \ "compact": 0
