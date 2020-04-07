@@ -202,6 +202,9 @@ set hlsearch
 "
 colorscheme sublimemonokai
 
+"set cursor color
+hi Cursor guifg=#193549 guibg=#ffc600 gui=NONE
+
 "previous colorscheme
 "colorscheme github
 
