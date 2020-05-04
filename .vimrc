@@ -19,8 +19,10 @@ set foldlevelstart=99 "open unfolded
 
 set clipboard=unnamed
 set relativenumber
+set nu rnu
 set ruler
 set cursorline
+set linespace=2
 
 "stop blinking cursor
 set guicursor+=a:blinkon0
@@ -33,7 +35,8 @@ set directory=$HOME/.vim/swapfiles//
 set undodir=$HOME/.vim/swapfiles//
 set backupdir=$HOME/.vim/swapfiles//
 
-let g:indentLine_enabled = 1
+" let g:indentLine_setColors = 0
+let g:indentLine_char_list = ['¦', '┆', '┊']
 
 nnoremap <C-p> :Files<Cr>
 "copy filename with path
@@ -107,6 +110,8 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'mileszs/ack.vim'
 
+  Plug 'nanotech/jellybeans.vim'
+  Plug 'morhetz/gruvbox'
   Plug 'altercation/vim-colors-solarized'
   Plug 'blueshirts/darcula'
   Plug 'ErichDonGubler/vim-sublime-monokai'
@@ -200,7 +205,9 @@ set hlsearch
 "
 " colorscheme OceanicNext
 "
-colorscheme sublimemonokai
+" colorscheme sublimemonokai
+" colorscheme gruvbox
+colorscheme jellybeans
 
 "set cursor color
 hi Cursor guifg=#193549 guibg=#ffc600 gui=NONE
@@ -211,7 +218,7 @@ hi Cursor guifg=#193549 guibg=#ffc600 gui=NONE
 "colorscheme carbonized-light
 "colorscheme carbonized-dark
 "colo two-firewatch
-"set background=dark
+set background=dark
 "set background=light
 
 "underline Search instead of highlight
@@ -243,6 +250,15 @@ if g:colors_name == 'sublimemonokai'
   hi StatusLineNC guibg=grey
   hi StatusLine guibg=white
   let g:sublimemonokai_term_italic = 1
+endif
+
+if g:colors_name == 'jellybeans'
+  let g:jellybeans_use_term_italics = 1
+  let g:jellybeans_use_lowcolor_black = 1
+  " let g:jellybeans_overrides = {
+  " \    'MatchParen': { 'guifg': 'dd0093', 'guibg': '000000',
+  " \    'ctermfg': 'Magenta', 'ctermbg': '' },
+   " \}
 endif
 
 "send last clipboard to port mapped to local computer
