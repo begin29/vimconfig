@@ -188,7 +188,13 @@ set linebreak
 set showbreak=>\ \ \
 autocmd BufWritePre * %s/\s\+$//e
 
-set tags=tags;/
+" set tags=tags;/
+" Generate ctags for current working directory
+" temporary put satchel directory only
+" TODO: look down to .git location as project folder
+" TODO: it has not seen folder
+" au BufWritePost * silent! !ctags $HOME/projects/satchel/show-app &
+
 nnoremap <silent> <F8> :TlistToggle<CR>
 let Tlist_GainFocus_On_ToggleOpen = 1
 
