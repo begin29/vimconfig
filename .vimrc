@@ -13,6 +13,9 @@ endfunc
 set encoding=utf-8
 set autowriteall
 
+"reload files after change branch
+:set autoread
+
 "folding
 set foldmethod=indent
 set foldlevelstart=99 "open unfolded
@@ -109,6 +112,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'chiedo/vim-case-convert'
 
   Plug 'mileszs/ack.vim'
+  Plug 'stefandtw/quickfix-reflector.vim'
 
   Plug 'nanotech/jellybeans.vim'
   Plug 'morhetz/gruvbox'
@@ -118,12 +122,17 @@ call plug#begin('~/.vim/plugged')
   Plug 'Rigellute/rigel'
   Plug 'mhartington/oceanic-next'
   Plug 'hzchirs/vim-material'
+  Plug 'Lokaltog/vim-monotone'
+  Plug 'kmszk/skyknight'
+  Plug 'axvr/photon.vim'
+  Plug 'smallwat3r/vim-efficient'
+  Plug 'andreypopp/vim-colors-plain'
 
   " multiple syntax highlight
   Plug 'sheerun/vim-polyglot'
 
   Plug 'crusoexia/vim-javascript-lib'
-  Plug 'ycm-core/YouCompleteMe'
+  " Plug 'ycm-core/YouCompleteMe'
 call plug#end()
 
 "space after comment sign #nerdcommenter
@@ -211,21 +220,20 @@ set hlsearch
 "
 " colorscheme OceanicNext
 "
-" colorscheme sublimemonokai
+colorscheme sublimemonokai
+" colorscheme skyknight
 " colorscheme gruvbox
-colorscheme jellybeans
-
-"set cursor color
-hi Cursor guifg=#193549 guibg=#ffc600 gui=NONE
-
-"previous colorscheme
-"colorscheme github
-
+" colorscheme jellybeans
 "colorscheme carbonized-light
 "colorscheme carbonized-dark
-"colo two-firewatch
+
+let g:monotone_color = [120, 100, 70] " Sets theme color to bright green
+" let g:monotone_secondary_hue_offset = 200 " Offset secondary colors by 200 degrees
+let g:monotone_emphasize_comments = 1 " Emphasize comments
+
+"set cursor color
+hi Cursor guifg=#193549 guibg=green gui=NONE
 set background=dark
-"set background=light
 
 "underline Search instead of highlight
 " hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=green guibg=NONE gui=underline,italic,bold
@@ -245,16 +253,16 @@ let g:ctrlsf_winsize = '30%'
 hi Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE
 hi PmenuSel ctermfg=NONE ctermbg=24 cterm=NONE guifg=NONE guibg=#204a87 gui=NONE
 
+"set found words
+set shortmess-=S
+
 "set font
-:set guifont=Source\ Code\ Pro\ for\ Powerline:h12
+set guifont=Source\ Code\ Pro:h11
 
 "remove scrollbars (macvim)
 set guioptions=
 
 if g:colors_name == 'sublimemonokai'
-  "set text color for status line
-  hi StatusLineNC guibg=grey
-  hi StatusLine guibg=white
   let g:sublimemonokai_term_italic = 1
 endif
 
