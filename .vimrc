@@ -17,7 +17,7 @@ set autowriteall
 set foldmethod=indent
 set foldlevelstart=99 "open unfolded
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 set relativenumber
 set nu rnu
 set ruler
