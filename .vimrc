@@ -20,7 +20,9 @@ set autowriteall
 set foldmethod=indent
 set foldlevelstart=99 "open unfolded
 
-set clipboard=unnamedplus
+"remove system bell
+set visualbell t_vb=
+
 set relativenumber
 set nu rnu
 set ruler
@@ -53,8 +55,9 @@ nnoremap <silent> ,<space> :nohlsearch<CR>
 set wildignore+=*/tmp/cache/*,.git/*,*.DS_Store,*/node_modules/*,*/tmp/ruby/*
 
 if (has("gui_macvim"))
-  "
+  set clipboard=unnamed
 else
+  set clipboard=unnamedplus
   set term=xterm-256color
 endif
 "filetype plugin indent on
@@ -85,8 +88,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'MattesGroeger/vim-bookmarks'
 
   "snipmate
-  Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
+  " Plug 'SirVer/ultisnips'
+  " Plug 'honza/vim-snippets'
 
   Plug 'tpope/vim-vinegar'
   Plug 'scrooloose/nerdcommenter'
@@ -257,7 +260,11 @@ hi PmenuSel ctermfg=NONE ctermbg=24 cterm=NONE guifg=NONE guibg=#204a87 gui=NONE
 set shortmess-=S
 
 "set font
-set guifont=Source\ Code\ Pro:h11
+if (has("gui_macvim"))
+  set guifont=Source_Code_Pro:h11
+else
+  set guifont=Source\ Code\ Pro:h11
+end
 
 "remove scrollbars (macvim)
 set guioptions=
