@@ -14,7 +14,7 @@ set encoding=utf-8
 set autowriteall
 
 "reload files after change branch
-:set autoread
+set autoread
 
 "folding
 set foldmethod=indent
@@ -54,7 +54,7 @@ nnoremap <silent> ,<space> :nohlsearch<CR>
 
 set wildignore+=*/tmp/cache/*,.git/*,*.DS_Store,*/node_modules/*,*/tmp/ruby/*
 
-if (has("gui_macvim"))
+if !executable('lsb_release')
   set clipboard=unnamed
 else
   set clipboard=unnamedplus
@@ -107,6 +107,9 @@ call plug#begin('~/.vim/plugged')
     \ 'ctrl-t': 'tab split',
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit' }
+
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow -g "!.git/*"'
+
   "fzf files command with additional options
   command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
@@ -135,7 +138,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'sheerun/vim-polyglot'
 
   Plug 'crusoexia/vim-javascript-lib'
-  " Plug 'ycm-core/YouCompleteMe'
+  Plug 'ycm-core/YouCompleteMe'
 call plug#end()
 
 "space after comment sign #nerdcommenter
@@ -260,8 +263,8 @@ hi PmenuSel ctermfg=NONE ctermbg=24 cterm=NONE guifg=NONE guibg=#204a87 gui=NONE
 set shortmess-=S
 
 "set font
-if (has("gui_macvim"))
-  set guifont=Source_Code_Pro:h11
+if !executable('lsb_release')
+  set guifont=Source_Code_Pro:h12
 else
   set guifont=Source\ Code\ Pro:h11
 end
