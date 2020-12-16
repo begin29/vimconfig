@@ -60,7 +60,6 @@ else
   set clipboard=unnamedplus
   set term=xterm-256color
 endif
-"filetype plugin indent on
 
 "disable autohide quotes in json files
 set conceallevel=0
