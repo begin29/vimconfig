@@ -1,24 +1,23 @@
-func! Backspace()
-  if col('.') == 1
-    if line('.')  != 1
-      return  "\<ESC>kA\<Del>"
-    else
-      return ""
-    endif
-  else
-    return "\<Left>\<Del>"
-  endif
-endfunc
-
 set encoding=utf-8
 set autowriteall
 
 "reload files after change branch
 set autoread
 
+set showbreak=↪\
+
 "folding
 set foldmethod=indent
 set foldlevelstart=99 "open unfolded
+
+"Ignore case when searching
+set ignorecase
+
+"keep undo history after closing file
+if has('persistent_undo')
+  set undofile
+  set undodir=$HOME/.vim_undo
+endif
 
 "remove system bell
 set visualbell t_vb=
@@ -43,6 +42,13 @@ set backupdir=$HOME/.vim/swapfiles//
 " let g:indentLine_setColors = 0
 let g:indentLine_char_list = ['¦', '┆', '┊']
 
+" http://eduncan911.com/software/fix-slow-scrolling-in-vim-and-neovim.html
+set cursorline!
+set lazyredraw
+
+"open help on a new tab
+cabbrev help tab help
+
 nnoremap <C-p> :Files<Cr>
 "copy filename with path
 nmap <silent> ,cl :let @*=expand("%:p")<CR>
@@ -51,6 +57,8 @@ nmap <silent> ,cs :let @*=expand("%")<CR>
 
 "clear search highlight
 nnoremap <silent> ,<space> :nohlsearch<CR>
+
+map <leader>F :Rg<space>
 
 set wildignore+=*/tmp/cache/*,.git/*,*.DS_Store,*/node_modules/*,*/tmp/ruby/*
 
@@ -80,7 +88,58 @@ endfunction
 
 call plug#begin('~/.vim/plugged')
   "https://www.sitepoint.com/effective-rails-development-vim/
-  " Plug 'tpope/vim-rails'
+  "Ruby
+  Plug 'tpope/vim-rails'
+  Plug 'tpope/vim-rake'
+  Plug 'tpope/vim-bundler'
+  Plug 'kana/vim-textobj-user'
+  Plug 'nelstrom/vim-textobj-rubyblock'
+
+  Plug 'vim-ruby/vim-ruby'
+  "correct indent in ruby
+  let g:ruby_indent_block_style = 'do'
+
+  Plug 'aliou/sql-heredoc.vim'
+
+  Plug 'lifepillar/pgsql.vim'
+  let g:sql_type_default = 'pgsql'
+
+  "open not writable file with sudo
+  Plug 'lambdalisue/suda.vim'
+  let g:suda_smart_edit = 1
+
+  "create multiline with gj
+  Plug 'AndrewRadev/splitjoin.vim'
+
+  "usefull default settings
+  Plug 'tpope/vim-sensible'
+
+  "quickly wrap/surround text with quotes, brackets
+  Plug 'tpope/vim-surround'
+
+  "change mode, delete, rename file
+  Plug 'tpope/vim-eunuch'
+
+  "add end to functions
+  Plug 'tpope/vim-endwise'
+
+  "better replacement, correction and transform to cammel-case, snake case
+  ":Subvert/di{e,ce}/spinner{,s}/g - replace
+  "crs - transform word to snake_case
+  "crc - to camelCase
+  "correct wrongly written words
+  ":iabbrev  seperate  separate
+  Plug 'tpope/vim-abolish'
+
+  "syntax highlight and mapping for markdown
+  Plug 'plasticboy/vim-markdown'
+
+  "quickly aligh paragraph
+  "vipga= select paragraph and start easyAlign process(ga) by =
+  Plug 'junegunn/vim-easy-align'
+
+  "tab completion
+  Plug 'ervandew/supertab'
 
   Plug 'vim-scripts/todo-txt.vim'
 
@@ -90,8 +149,15 @@ call plug#begin('~/.vim/plugged')
   " Plug 'SirVer/ultisnips'
   " Plug 'honza/vim-snippets'
 
+  Plug 'ludovicchabant/vim-gutentags'
+  let g:gutentags_file_list_command = 'rg --files'
+
+  "syntax highlight
   Plug 'tpope/vim-vinegar'
-  Plug 'scrooloose/nerdcommenter'
+
+  "comment line/block
+  Plug 'tpope/vim-commentary'
+
   Plug 'Yggdroot/indentLine'
   Plug 'terryma/vim-multiple-cursors'
 
@@ -107,7 +173,7 @@ call plug#begin('~/.vim/plugged')
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit' }
 
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow -g "!.git/*"'
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow -g "!.git"'
 
   "fzf files command with additional options
   command! -bang -nargs=? -complete=dir Files
@@ -140,9 +206,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'ycm-core/YouCompleteMe'
 call plug#end()
 
-"space after comment sign #nerdcommenter
-let g:NERDSpaceDelims = 1
-
 "ultisnips settings
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
@@ -150,6 +213,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 "YouCompleteMe
 let g:ycm_key_list_previous_completion=['<Up>']
 let g:ycm_key_list_stop_completion = [ '<C-y>' ]
+let g:ycm_auto_hover=''
+"show documentation
+nmap <leader>D <plug>(YCMHover)
 "let g:ycm_auto_trigger=0
 "set completeopt-=preview
 "set completeopt-=menuone
@@ -170,7 +236,6 @@ highlight lCursor guifg=NONE guibg=Cyan
 
 set backspace=2
 
-inoremap <BS> <c-r>=Backspace()<CR>
 set tabstop=2
 set shiftwidth=2
 set expandtab
@@ -202,7 +267,7 @@ set linebreak
 set showbreak=>\ \ \
 autocmd BufWritePre * %s/\s\+$//e
 
-" set tags=tags;/
+set tags=tags;/
 " Generate ctags for current working directory
 " temporary put satchel directory only
 " TODO: look down to .git location as project folder
