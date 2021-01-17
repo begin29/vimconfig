@@ -12,6 +12,11 @@ set foldlevelstart=99 "open unfolded
 
 "Ignore case when searching
 set ignorecase
+"Case sensitive if uppercase used like /The
+set smartcase
+
+"always show all characters on md, json files
+set conceallevel=0
 
 "keep undo history after closing file
 if has('persistent_undo')
@@ -59,6 +64,9 @@ nmap <silent> ,cs :let @*=expand("%")<CR>
 nnoremap <silent> ,<space> :nohlsearch<CR>
 
 map <leader>F :Rg<space>
+
+"toggle spell check
+map <F6> :setlocal spell! spelllang=en_us<cr>
 
 set wildignore+=*/tmp/cache/*,.git/*,*.DS_Store,*/node_modules/*,*/tmp/ruby/*
 
