@@ -1,9 +1,3 @@
-function! s:build_quickfix_list(lines)
-  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-  copen
-  cc
-endfunction
-
 call plug#begin('~/.vim/plugged')
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -104,25 +98,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'dyng/ctrlsf.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
-  let g:fzf_action = {
-    \ 'ctrl-q': function('s:build_quickfix_list'),
-    \ 'ctrl-t': 'tab split',
-    \ 'ctrl-x': 'split',
-    \ 'ctrl-v': 'vsplit' }
-
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow -g "!.git"'
-
-  "fzf files command with additional options
-  command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
-
-  let $BAT_THEME = 'Monokai Extended Origin'
-  command! -bang -nargs=* Rg
-  \ call fzf#vim#grep('rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),
-  \ 1,
-  \ fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}),
-  \ <bang>0)
-  let g:fzf_tags_command = 'ctags -R --exclude=.git --exclude=node_modules --exclude=tmp --exclude=bower_components'
 
   Plug 'chiedo/vim-case-convert'
 
@@ -148,6 +123,47 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'crusoexia/vim-javascript-lib'
 call plug#end()
+
+"fzf settings => BEGIN
+  function! s:build_quickfix_list(lines)
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+  endfunction
+
+  let g:fzf_action = {
+    \ 'ctrl-q': function('s:build_quickfix_list'),
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-x': 'split',
+    \ 'ctrl-v': 'vsplit' }
+
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow -g "!.git"'
+
+  "fzf files command with additional options
+  command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
+
+  func! s:search_root_folder()
+    try
+      systemlist('git rev-parse --show-toplevel')[0]
+    catch
+      pwd
+    endtry
+  endfunc
+
+  function! s:RGFzf(query, fullscreen)
+    let initial_command = 'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(a:query)
+    let spec = {'dir': s:search_root_folder()}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  endfunction
+
+  let $BAT_THEME = 'Monokai Extended Origin'
+  command! -bang -nargs=* Rg call s:RGFzf(<q-args>, <bang>0)
+
+  let g:fzf_tags_command = 'ctags -R --exclude=.git --exclude=node_modules --exclude=tmp --exclude=bower_components'
+
+  nnoremap <C-p> :Files<Cr>
+"fzf settings => END
 
 "ultisnips settings
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -234,7 +250,6 @@ cabbrev help tab help
 
 nnoremap <C-b> :Buffers<CR>
 
-nnoremap <C-p> :Files<Cr>
 "copy filename with path
 nmap <silent> ,cl :let @*=join([expand("%:p"), line(".")], ':')<CR>
 "copy only filename
