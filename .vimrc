@@ -7,7 +7,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
-  let g:deoplete#enable_at_startup = 1
+  if has("gui_macvim")
+    let g:deoplete#enable_at_startup = 1
+  endif
 
   " easy use sessions
   Plug 'mhinz/vim-startify'
