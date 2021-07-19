@@ -9,6 +9,9 @@ call plug#begin('~/.vim/plugged')
 
   let g:deoplete#enable_at_startup = 1
 
+  " easy use sessions
+  Plug 'mhinz/vim-startify'
+
   "https://www.sitepoint.com/effective-rails-development-vim/
   "Ruby
   Plug 'tpope/vim-rails'
@@ -104,9 +107,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'mileszs/ack.vim'
   Plug 'stefandtw/quickfix-reflector.vim'
 
+  Plug 'mhinz/vim-janah'
   Plug 'nanotech/jellybeans.vim'
   Plug 'morhetz/gruvbox'
-  Plug 'altercation/vim-colors-solarized'
+  Plug 'lifepillar/vim-solarized8'
   Plug 'blueshirts/darcula'
   Plug 'ErichDonGubler/vim-sublime-monokai'
   Plug 'crusoexia/vim-monokai'
@@ -117,6 +121,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'kmszk/skyknight'
   Plug 'smallwat3r/vim-efficient'
   Plug 'andreypopp/vim-colors-plain'
+  Plug 'carakan/new-railscasts-theme'
+  Plug 'jpo/vim-railscasts-theme'
 
   " multiple syntax highlight
   Plug 'sheerun/vim-polyglot'
@@ -226,7 +232,7 @@ set relativenumber
 set nu rnu
 set ruler
 set cursorline
-set linespace=2
+set linespace=3
 
 "stop blinking cursor
 set guicursor+=a:blinkon0
@@ -251,7 +257,7 @@ cabbrev help tab help
 nnoremap <C-b> :Buffers<CR>
 
 "copy filename with path
-nmap <silent> ,cl :let @*=join([expand("%:p"), line(".")], ':')<CR>
+nmap <silent> ,cl :let @*=join([substitute(expand("%:p"), "^.*\/spec", "spec", ""), line(".")], ':')<CR>
 "copy only filename
 nmap <silent> ,cs :let @*=expand("%")<CR>
 
@@ -265,6 +271,8 @@ map <C-c> :BD<cr>
 
 "toggle spell check
 map <F6> :setlocal spell! spelllang=en_us<cr>
+
+nnoremap WA silent! wa<CR>
 
 set wildignore+=*/tmp/cache/*,.git/*,*.DS_Store,*/node_modules/*,*/tmp/ruby/*
 
@@ -306,7 +314,16 @@ set autochdir
 set splitbelow
 set splitright
 map <C-a> <esc>ggVG<CR>
-"au FocusLost * :wa
+
+" Removes trailing spaces
+function TrimWhiteSpace()
+  let l:save = winsaveview()
+  keeppatterns %s/\s\+$//e
+  call winrestview(l:save)
+endfunction
+
+" save buffers on focus lost
+au FocusLost * :silent! wa
 
 "let g:miniBufExplMapWindowNavVim = 1
 "let g:miniBufExplMapWindowNavArrows = 1
@@ -317,7 +334,11 @@ set wrap
 set linebreak
 " note trailing space at end of next line
 set showbreak=>\ \ \
-autocmd BufWritePre * %s/\s\+$//e
+
+" autocmd FileWritePre * call TrimWhiteSpace()
+" autocmd FileAppendPre * call TrimWhiteSpace()
+" autocmd FilterWritePre * call TrimWhiteSpace()
+autocmd BufWritePre * call TrimWhiteSpace()
 
 set tags=tags;/
 " Generate ctags for current working directory
@@ -333,15 +354,6 @@ let Tlist_GainFocus_On_ToggleOpen = 1
 noremap <F3> <C-W>_
 
 set hlsearch
-" colorscheme PaperColor
-" colorscheme torte
-" color happy_hacking
-" colorscheme OceanicNext
-" colorscheme skyknight
-" colorscheme gruvbox
-" colorscheme jellybeans
-" colorscheme carbonized-light
-" colorscheme carbonized-dark
 
 let g:monotone_color = [120, 100, 70] " Sets theme color to bright green
 " let g:monotone_secondary_hue_offset = 200 " Offset secondary colors by 200 degrees
@@ -395,10 +407,13 @@ let g:jellybeans_use_lowcolor_black = 1
 
 let g:monokai_term_italic = 1
 let g:monokai_gui_italic = 1
-" colorscheme monokai
+colorscheme monokai
+
+autocmd ColorScheme janah highlight Normal ctermbg=235
+" colorscheme janah
 
 let g:gruvbox_contrast_dark = 'hard'
-colorscheme gruvbox
+" colorscheme gruvbox
 
 "send last clipboard to port mapped to local computer
 function! SendToClipboard(content)
