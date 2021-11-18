@@ -1,14 +1,6 @@
 call plug#begin('~/.vim/plugged')
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-  endif
-
-  if has("gui_macvim")
-    let g:deoplete#enable_at_startup = 1
   endif
 
   " easy use sessions
@@ -69,6 +61,8 @@ call plug#begin('~/.vim/plugged')
   "tab completion
   Plug 'ervandew/supertab'
 
+  Plug 'maralla/completor.vim'
+
   Plug 'vim-scripts/todo-txt.vim'
 
   Plug 'MattesGroeger/vim-bookmarks'
@@ -125,6 +119,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'andreypopp/vim-colors-plain'
   Plug 'carakan/new-railscasts-theme'
   Plug 'jpo/vim-railscasts-theme'
+  Plug 'bluz71/vim-nightfly-guicolors'
 
   " multiple syntax highlight
   Plug 'sheerun/vim-polyglot'
@@ -145,11 +140,17 @@ call plug#end()
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit' }
 
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow -g "!.git"'
+  let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
 
   "fzf files command with additional options
   command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline', '-i']}), <bang>0)
+
+  command! -bang -nargs=? -complete=dir Buffers
+    \ call fzf#vim#buffers(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline', '-i']}), <bang>0)
+
+  " command! -bang -nargs=? -complete=dir Files
+  "   \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
 
   func! s:search_root_folder()
     try
@@ -161,7 +162,7 @@ call plug#end()
 
   function! s:RGFzf(query, fullscreen)
     let initial_command = 'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(a:query)
-    let spec = {'dir': s:search_root_folder()}
+    let spec = {'dir': s:search_root_folder(), 'options': ['--layout=reverse']}
     call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
   endfunction
 
@@ -188,18 +189,61 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 "set completeopt-=menuone
 
 "Netrw settings
-let g:netrw_localrmdir='rm -r'
 "let g:netrw_liststyle = 3
 "let g:netrw_banner = 0
 "let g:netrw_browse_split = 4
 "let g:netrw_winsize = 25
 "let g:netrw_altv = 1
+"https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
+function! NetrwRemoveRecursive()
+  if &filetype ==# 'netrw'
+    cnoremap <buffer> <CR> trash<CR>
+    normal mu
+    normal mf
+
+    try
+      normal mx
+    catch
+      echo "Canceled"
+    endtry
+
+    cunmap <buffer> <CR>
+  endif
+endfunction
+
+function! NetrwMapping()
+  nmap <buffer> <TAB> mf
+  nmap <buffer> <S-TAB> mF
+  nmap <buffer> <Leader><TAB> mu
+  nmap <buffer> fe R
+  nmap <buffer> fc mc
+  nmap <buffer> fC mtmc
+  nmap <buffer> fx mm
+  nmap <buffer> fX mtmm
+  nmap <buffer> ff %:w<CR>:buffer #<CR>
+  nmap <buffer> f; mx
+
+  nmap <buffer> FF :call NetrwRemoveRecursive()<CR>
+
+  " bookmarks
+  nmap <buffer> bb mb
+  nmap <buffer> bd mB
+  nmap <buffer> bl gb
+endfunction
+
+augroup netrw_mapping
+  autocmd!
+  autocmd filetype netrw call NetrwMapping()
+augroup END
 
 "keymap
-set keymap=ukrainian-enhanced
-set iminsert=0
-set imsearch=0
-highlight lCursor guifg=NONE guibg=Cyan
+if !has('nvim')
+  set keymap=ukrainian-enhanced
+  set iminsert=0
+  set imsearch=0
+  highlight lCursor ctermbg=red guibg=red
+  " highlight lCursor guifg=NONE guibg=Cyan
+end
 
 set encoding=utf-8
 set autowriteall
@@ -217,9 +261,6 @@ set foldlevelstart=99 "open unfolded
 set ignorecase
 "Case sensitive if uppercase used like /The
 set smartcase
-
-"always show all characters on md, json files
-set conceallevel=0
 
 "keep undo history after closing file
 if has('persistent_undo')
@@ -243,9 +284,9 @@ set guicursor+=a:blinkon0
 set updatetime=100
 
 "set swap files directory
-set directory=$HOME/.vim/swapfiles//
-set undodir=$HOME/.vim/swapfiles//
-set backupdir=$HOME/.vim/swapfiles//
+set directory=$HOME/.config/vimswapfiles//
+set undodir=$HOME/.config/vimswapfiles//
+set backupdir=$HOME/.config/vimswapfiles//
 
 " let g:indentLine_setColors = 0
 let g:indentLine_char_list = ['¦', '┆', '┊']
@@ -285,9 +326,6 @@ else
   set term=xterm-256color
 endif
 
-"disable autohide quotes in json files
-set conceallevel=0
-
 if (has("termguicolors"))
  set termguicolors
 endif
@@ -318,7 +356,7 @@ set splitright
 map <C-a> <esc>ggVG<CR>
 
 " Removes trailing spaces
-function TrimWhiteSpace()
+function! TrimWhiteSpace()
   let l:save = winsaveview()
   keeppatterns %s/\s\+$//e
   call winrestview(l:save)
@@ -388,7 +426,8 @@ set shortmess-=S
 
 "set font
 if !executable('lsb_release')
-  set guifont=Source_Code_Pro:h12
+  " set guifont=Source_Code_Pro:h12
+  set guifont=UbuntuMonoDerivativePowerline-Regular:h14
 else
   set guifont=Source\ Code\ Pro:h11
 end
@@ -439,9 +478,15 @@ nmap <C-f>f <Plug>CtrlSFPrompt
 "insert current time/date
 nnoremap <F5> "='('.strftime("%c").')'<CR>p
 
+"always show all characters on md, json files
+set conceallevel=0
+
 "TODO: ability to quick enable/disable
 "set spell spelllang=en_us
 "hi clear SpellBad
 "hi SpellBad cterm=underline ctermfg=grey
 "hi SpellCap cterm=underline ctermfg=grey
 "hi SpellRare cterm=underline ctermfg=grey
+
+"disable autohide quotes in json files
+set conceallevel=0
