@@ -88,6 +88,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-rhubarb'
   Plug 'drzel/vim-repo-edit'
 
+  Plug 'tonchis/vim-to-github'
+
   " https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt
   Plug 'tpope/vim-unimpaired'
 
@@ -103,12 +105,14 @@ call plug#begin('~/.vim/plugged')
   Plug 'mileszs/ack.vim'
   Plug 'stefandtw/quickfix-reflector.vim'
 
+  Plug 'airblade/vim-rooter'
+
   Plug 'mhinz/vim-janah'
   Plug 'nanotech/jellybeans.vim'
   Plug 'morhetz/gruvbox'
   Plug 'lifepillar/vim-solarized8'
   Plug 'blueshirts/darcula'
-  Plug 'ErichDonGubler/vim-sublime-monokai'
+  Plug 'altercation/vim-colors-solarized'
   Plug 'crusoexia/vim-monokai'
   Plug 'Rigellute/rigel'
   Plug 'mhartington/oceanic-next'
@@ -120,12 +124,45 @@ call plug#begin('~/.vim/plugged')
   Plug 'carakan/new-railscasts-theme'
   Plug 'jpo/vim-railscasts-theme'
   Plug 'bluz71/vim-nightfly-guicolors'
+  Plug 'easymotion/vim-easymotion'
+  Plug 'NLKNguyen/papercolor-theme'
+  Plug 'patstockwell/vim-monokai-tasty'
+
+  Plug 'flazz/vim-colorschemes'
 
   " multiple syntax highlight
   Plug 'sheerun/vim-polyglot'
 
   Plug 'crusoexia/vim-javascript-lib'
 call plug#end()
+
+"vim-rooter
+  let g:rooter_patterns = ['.git', 'Makefile', 'Gemfile']
+  let g:rooter_resolve_links = 1
+
+"tonchis/vim-to-github
+  "copy line to clipboard
+  let g:to_github_clip_command = 'pbcopy'
+  let g:to_github_clipboard = 1
+
+"easyMotion
+  map  <Leader>/ <Plug>(easymotion-sn)
+  omap <Leader>/ <Plug>(easymotion-tn)
+  " <Leader>f{char} to move to {char}
+  map  <Leader>f <Plug>(easymotion-bd-f)
+  nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+  " s{char}{char} to move to {char}{char}
+  nmap <Leader>s <Plug>(easymotion-overwin-f2)
+
+  " Move to line
+  map <Leader>L <Plug>(easymotion-bd-jk)
+  nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+  " Move to word
+  map  <Leader>w <Plug>(easymotion-bd-w)
+  nmap <Leader>w <Plug>(easymotion-overwin-w)
+  let g:EasyMotion_smartcase = 1
 
 "fzf settings => BEGIN
   function! s:build_quickfix_list(lines)
@@ -140,7 +177,7 @@ call plug#end()
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit' }
 
-  let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
+  let $FZF_DEFAULT_COMMAND = '/opt/homebrew/bin/rg --files --follow'
 
   "fzf files command with additional options
   command! -bang -nargs=? -complete=dir Files
@@ -149,29 +186,19 @@ call plug#end()
   command! -bang -nargs=? -complete=dir Buffers
     \ call fzf#vim#buffers(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline', '-i']}), <bang>0)
 
-  " command! -bang -nargs=? -complete=dir Files
-  "   \ call fzf#vim#files(<q-args>, {'options': ['-i']}, <bang>0)
-
-  func! s:search_root_folder()
-    try
-      systemlist('git rev-parse --show-toplevel')[0]
-    catch
-      pwd
-    endtry
-  endfunc
-
   function! s:RGFzf(query, fullscreen)
     let initial_command = 'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(a:query)
-    let spec = {'dir': s:search_root_folder(), 'options': ['--layout=reverse']}
+    let spec = {'options': ['--layout=reverse']}
     call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
   endfunction
 
   let $BAT_THEME = 'Monokai Extended Origin'
+  " let $BAT_THEME = 'Solarized (light)'
   command! -bang -nargs=* Rg call s:RGFzf(<q-args>, <bang>0)
 
   let g:fzf_tags_command = 'ctags -R --exclude=.git --exclude=node_modules --exclude=tmp --exclude=bower_components'
 
-  nnoremap <C-p> :Files<Cr>
+  noremap <C-p> :Files<Cr>
 "fzf settings => END
 
 "ultisnips settings
@@ -235,6 +262,8 @@ augroup netrw_mapping
   autocmd!
   autocmd filetype netrw call NetrwMapping()
 augroup END
+
+" set transparency=5
 
 "keymap
 if !has('nvim')
@@ -307,7 +336,8 @@ nmap <silent> ,cs :let @*=expand("%")<CR>
 "clear search highlight
 nnoremap <silent> ,<space> :nohlsearch<CR>
 
-map <leader>F :Rg<space>
+map <leader>F <Plug>CtrlSFPrompt -ignoredir "spec"<space>
+map <leader>G <Plug>CtrlSFPrompt
 
 " rm current file from buffer
 map <C-c> :BD<cr>
@@ -393,7 +423,7 @@ let Tlist_GainFocus_On_ToggleOpen = 1
 "increase tab in full height
 noremap <F3> <C-W>_
 
-set hlsearch
+set hlsearch!
 
 let g:monotone_color = [120, 100, 70] " Sets theme color to bright green
 " let g:monotone_secondary_hue_offset = 200 " Offset secondary colors by 200 degrees
@@ -401,6 +431,7 @@ let g:monotone_emphasize_comments = 1 " Emphasize comments
 
 "set cursor color
 hi Cursor guifg=#193549 guibg=green gui=NONE
+"set background=light
 set background=dark
 
 "underline Search instead of highlight
@@ -411,11 +442,21 @@ let g:ctrlsf_auto_close = {
   \ "normal" : 0,
   \ "compact": 0
   \}
-let g:ctrlsf_position = 'top'
+let g:ctrlsf_position = 'left'
+let g:ctrlsf_winsize = '100'
 let g:ctrlsf_auto_focus = {
   \ "at": "start"
   \ }
-let g:ctrlsf_winsize = '30%'
+let g:ctrlsf_default_root = 'project'
+let g:ctrlsf_extra_root_markers = ['.git']
+let g:ctrlsf_default_view_mode = 'compact'
+let g:ctrlsf_search_mode = 'async'
+let g:ctrlsf_ignore_dir = ['bower_components', 'node_modules']
+
+" run function after init search window
+function! g:CtrlSFAfterMainWindowInit()
+  setl wrap
+endfunction
 
 "autocompletion menu's color
 hi Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE
@@ -426,10 +467,12 @@ set shortmess-=S
 
 "set font
 if !executable('lsb_release')
+  set guifont=Source\ Code\ Pro:h13
   " set guifont=Source_Code_Pro:h12
-  set guifont=UbuntuMonoDerivativePowerline-Regular:h14
+  " set guifont=UbuntuMonoDerivativePowerline-Regular:h15
+  " set guifont=Office\ Code\ Pro\ D:h13
 else
-  set guifont=Source\ Code\ Pro:h11
+  set guifont=Source\ Code\ Pro:h13
 end
 
 "remove scrollbars (macvim)
@@ -449,6 +492,9 @@ let g:jellybeans_use_lowcolor_black = 1
 let g:monokai_term_italic = 1
 let g:monokai_gui_italic = 1
 colorscheme monokai
+" colorscheme solarized8_high
+
+" colorscheme molokai
 
 autocmd ColorScheme janah highlight Normal ctermbg=235
 " colorscheme janah
@@ -472,8 +518,6 @@ endif
 
 "commands
 command! -nargs=* TODOFind vimgrep /TODO/ **/*<args>
-
-nmap <C-f>f <Plug>CtrlSFPrompt
 
 "insert current time/date
 nnoremap <F5> "='('.strftime("%c").')'<CR>p
