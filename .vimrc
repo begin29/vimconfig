@@ -1,7 +1,17 @@
 call plug#begin('~/.vim/plugged')
-  if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  if has('python3')
   endif
+
+  if has('nvim')
+    Plug 'github/copilot.vim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    let g:deoplete#enable_at_startup = 1
+  else
+    Plug 'ycm-core/YouCompleteMe'
+  endif
+
+  let g:python3_host_prog = '/usr/bin/python3'
+  set pythonthreedll=/opt/homebrew/Frameworks/Python.framework/Versions/Current/Python
 
   " easy use sessions
   Plug 'mhinz/vim-startify'
@@ -61,8 +71,6 @@ call plug#begin('~/.vim/plugged')
   "tab completion
   Plug 'ervandew/supertab'
 
-  Plug 'maralla/completor.vim'
-
   Plug 'vim-scripts/todo-txt.vim'
 
   Plug 'MattesGroeger/vim-bookmarks'
@@ -107,6 +115,8 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'airblade/vim-rooter'
 
+  Plug 'gosukiwi/vim-atom-dark'
+  Plug 'joshdick/onedark.vim'
   Plug 'mhinz/vim-janah'
   Plug 'nanotech/jellybeans.vim'
   Plug 'morhetz/gruvbox'
@@ -127,8 +137,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'easymotion/vim-easymotion'
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'patstockwell/vim-monokai-tasty'
-
-  Plug 'flazz/vim-colorschemes'
 
   " multiple syntax highlight
   Plug 'sheerun/vim-polyglot'
@@ -210,8 +218,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
  let g:ycm_key_list_stop_completion = [ '<C-y>' ]
  let g:ycm_auto_hover=''
 "show documentation
-" nmap <leader>D <plug>(YCMHover)
-"let g:ycm_auto_trigger=0
+nmap <leader>D <plug>(YCMHover)
+let g:ycm_auto_trigger=1
 "set completeopt-=preview
 "set completeopt-=menuone
 
@@ -313,9 +321,15 @@ set guicursor+=a:blinkon0
 set updatetime=100
 
 "set swap files directory
-set directory=$HOME/.config/vimswapfiles//
-set undodir=$HOME/.config/vimswapfiles//
-set backupdir=$HOME/.config/vimswapfiles//
+if has('nvim')
+  set directory=$HOME/.config/nvimswapfiles//
+  set undodir=$HOME/.config/nvimswapfiles//
+  set backupdir=$HOME/.config/nvimswapfiles//
+else
+  set directory=$HOME/.config/vimswapfiles//
+  set undodir=$HOME/.config/vimswapfiles//
+  set backupdir=$HOME/.config/vimswapfiles//
+endif
 
 " let g:indentLine_setColors = 0
 let g:indentLine_char_list = ['¦', '┆', '┊']
@@ -379,8 +393,6 @@ set statusline+=%h%m%r%w                     " flags
 set statusline+=%=                           " right align
 set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
 
-set autochdir
-
 set splitbelow
 set splitright
 map <C-a> <esc>ggVG<CR>
@@ -403,7 +415,7 @@ au FocusLost * :silent! wa
 set wrap
 set linebreak
 " note trailing space at end of next line
-set showbreak=>\ \ \
+" set showbreak=>\ \ \
 
 " autocmd FileWritePre * call TrimWhiteSpace()
 " autocmd FileAppendPre * call TrimWhiteSpace()
@@ -422,12 +434,6 @@ let Tlist_GainFocus_On_ToggleOpen = 1
 
 "increase tab in full height
 noremap <F3> <C-W>_
-
-set hlsearch!
-
-let g:monotone_color = [120, 100, 70] " Sets theme color to bright green
-" let g:monotone_secondary_hue_offset = 200 " Offset secondary colors by 200 degrees
-let g:monotone_emphasize_comments = 1 " Emphasize comments
 
 "set cursor color
 hi Cursor guifg=#193549 guibg=green gui=NONE
@@ -449,7 +455,7 @@ let g:ctrlsf_auto_focus = {
   \ }
 let g:ctrlsf_default_root = 'project'
 let g:ctrlsf_extra_root_markers = ['.git']
-let g:ctrlsf_default_view_mode = 'compact'
+" let g:ctrlsf_default_view_mode = 'compact'
 let g:ctrlsf_search_mode = 'async'
 let g:ctrlsf_ignore_dir = ['bower_components', 'node_modules']
 
@@ -467,12 +473,12 @@ set shortmess-=S
 
 "set font
 if !executable('lsb_release')
-  set guifont=Source\ Code\ Pro:h13
-  " set guifont=Source_Code_Pro:h12
+  set guifont=JetBrains\ Mono:h13
+  " set guifont=Source\ Code\ Pro:h14
   " set guifont=UbuntuMonoDerivativePowerline-Regular:h15
   " set guifont=Office\ Code\ Pro\ D:h13
 else
-  set guifont=Source\ Code\ Pro:h13
+  set guifont=Source\ Code\ Pro:h14
 end
 
 "remove scrollbars (macvim)
@@ -491,7 +497,7 @@ let g:jellybeans_use_lowcolor_black = 1
 
 let g:monokai_term_italic = 1
 let g:monokai_gui_italic = 1
-colorscheme monokai
+colorscheme onedark
 " colorscheme solarized8_high
 
 " colorscheme molokai
@@ -531,6 +537,4 @@ set conceallevel=0
 "hi SpellBad cterm=underline ctermfg=grey
 "hi SpellCap cterm=underline ctermfg=grey
 "hi SpellRare cterm=underline ctermfg=grey
-
-"disable autohide quotes in json files
-set conceallevel=0
+set hlsearch
