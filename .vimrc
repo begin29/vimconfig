@@ -82,18 +82,23 @@ call plug#begin('~/.vim/plugged')
   Plug 'ludovicchabant/vim-gutentags'
   let g:gutentags_file_list_command = 'rg --files'
 
-  "syntax highlight
+  "enhances netrw
   Plug 'tpope/vim-vinegar'
 
   "comment line/block
   Plug 'tpope/vim-commentary'
 
   Plug 'Yggdroot/indentLine'
-  Plug 'terryma/vim-multiple-cursors'
+  Plug 'mg979/vim-visual-multi'
 
   Plug 'airblade/vim-gitgutter'
+
+  "premier Vim plugin for Git
   Plug 'tpope/vim-fugitive'
+  "Hub part of git. e.g. GBrowse
   Plug 'tpope/vim-rhubarb'
+
+  "One second to read GitHub code
   Plug 'drzel/vim-repo-edit'
 
   Plug 'tonchis/vim-to-github'
@@ -109,6 +114,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf.vim'
 
   Plug 'chiedo/vim-case-convert'
+
+  Plug 'xolox/vim-misc'
+  Plug 'xolox/vim-notes'
 
   Plug 'mileszs/ack.vim'
   Plug 'stefandtw/quickfix-reflector.vim'
@@ -137,12 +145,19 @@ call plug#begin('~/.vim/plugged')
   Plug 'easymotion/vim-easymotion'
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'patstockwell/vim-monokai-tasty'
+  Plug 'miyakogi/slateblue.vim'
+  Plug 'wuelnerdotexe/vim-enfocado'
+  Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
   " multiple syntax highlight
   Plug 'sheerun/vim-polyglot'
 
   Plug 'crusoexia/vim-javascript-lib'
 call plug#end()
+
+" let g:airline_theme = 'enfocado'
+" let g:enfocado_style = 'nature' " nature | neon
+" colorscheme enfocado
 
 "vim-rooter
   let g:rooter_patterns = ['.git', 'Makefile', 'Gemfile']
@@ -224,11 +239,11 @@ let g:ycm_auto_trigger=1
 "set completeopt-=menuone
 
 "Netrw settings
-"let g:netrw_liststyle = 3
-"let g:netrw_banner = 0
-"let g:netrw_browse_split = 4
-"let g:netrw_winsize = 25
-"let g:netrw_altv = 1
+" let g:netrw_liststyle = 1
+" let g:netrw_banner = 0
+" let g:netrw_browse_split = 4
+" let g:netrw_winsize = 25
+" let g:netrw_altv = 1
 "https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
 function! NetrwRemoveRecursive()
   if &filetype ==# 'netrw'
@@ -346,6 +361,7 @@ nnoremap <C-b> :Buffers<CR>
 nmap <silent> ,cl :let @*=join([substitute(expand("%:p"), "^.*\/spec", "spec", ""), line(".")], ':')<CR>
 "copy only filename
 nmap <silent> ,cs :let @*=expand("%")<CR>
+nmap <silent> ,cf :let @*=execute("pwd")<CR>
 
 "clear search highlight
 nnoremap <silent> ,<space> :nohlsearch<CR>
@@ -443,6 +459,7 @@ set background=dark
 "underline Search instead of highlight
 " hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=green guibg=NONE gui=underline,italic,bold
 
+let g:ctrlsf_default_view_mode = 'compact'
 let g:ctrlsf_regex_pattern = 0
 let g:ctrlsf_auto_close = {
   \ "normal" : 0,
@@ -497,10 +514,11 @@ let g:jellybeans_use_lowcolor_black = 1
 
 let g:monokai_term_italic = 1
 let g:monokai_gui_italic = 1
-colorscheme onedark
-" colorscheme solarized8_high
 
+" colorscheme onedark
+" colorscheme solarized8_high
 " colorscheme molokai
+colorscheme new-railscasts
 
 autocmd ColorScheme janah highlight Normal ctermbg=235
 " colorscheme janah
