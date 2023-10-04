@@ -1,163 +1,13 @@
-call plug#begin('~/.vim/plugged')
-  if has('python3')
-  endif
+let g:python3_host_prog = '/usr/bin/python3'
+set pythonthreedll=/opt/homebrew/Frameworks/Python.framework/Versions/Current/Python
 
-  if has('nvim')
-    Plug 'github/copilot.vim'
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    let g:deoplete#enable_at_startup = 1
-  else
-    Plug 'ycm-core/YouCompleteMe'
-  endif
+let g:ruby_indent_block_style = 'do'
 
-  let g:python3_host_prog = '/usr/bin/python3'
-  set pythonthreedll=/opt/homebrew/Frameworks/Python.framework/Versions/Current/Python
+let g:sql_type_default = 'pgsql'
 
-  " easy use sessions
-  Plug 'mhinz/vim-startify'
+let g:suda_smart_edit = 1
 
-  "https://www.sitepoint.com/effective-rails-development-vim/
-  "Ruby
-  Plug 'tpope/vim-rails'
-  Plug 'tpope/vim-rake'
-  Plug 'tpope/vim-bundler'
-  Plug 'kana/vim-textobj-user'
-  Plug 'nelstrom/vim-textobj-rubyblock'
-
-  Plug 'vim-ruby/vim-ruby'
-  "correct indent in ruby
-  let g:ruby_indent_block_style = 'do'
-
-  Plug 'aliou/sql-heredoc.vim'
-
-  Plug 'lifepillar/pgsql.vim'
-  let g:sql_type_default = 'pgsql'
-
-  "open not writable file with sudo
-  Plug 'lambdalisue/suda.vim'
-  let g:suda_smart_edit = 1
-
-  "create multiline with gj
-  Plug 'AndrewRadev/splitjoin.vim'
-
-  "usefull default settings
-  Plug 'tpope/vim-sensible'
-
-  "quickly wrap/surround text with quotes, brackets
-  " https://vimawesome.com/plugin/surround-vim
-  Plug 'tpope/vim-surround'
-
-  "change mode, delete, rename file
-  Plug 'tpope/vim-eunuch'
-
-  "add end to functions
-  Plug 'tpope/vim-endwise'
-
-  "better replacement, correction and transform to cammel-case, snake case
-  ":Subvert/di{e,ce}/spinner{,s}/g - replace
-  "crs - transform word to snake_case
-  "crc - to camelCase
-  "correct wrongly written words
-  ":iabbrev  seperate  separate
-  Plug 'tpope/vim-abolish'
-
-  "syntax highlight and mapping for markdown
-  Plug 'plasticboy/vim-markdown'
-
-  "quickly aligh paragraph
-  "vipga= select paragraph and start easyAlign process(ga) by =
-  Plug 'junegunn/vim-easy-align'
-
-  "tab completion
-  Plug 'ervandew/supertab'
-
-  Plug 'vim-scripts/todo-txt.vim'
-
-  Plug 'MattesGroeger/vim-bookmarks'
-
-  "snipmate
-  " Plug 'SirVer/ultisnips'
-  " Plug 'honza/vim-snippets'
-
-  Plug 'ludovicchabant/vim-gutentags'
-  let g:gutentags_file_list_command = 'rg --files'
-
-  "enhances netrw
-  Plug 'tpope/vim-vinegar'
-
-  "comment line/block
-  Plug 'tpope/vim-commentary'
-
-  Plug 'Yggdroot/indentLine'
-  Plug 'mg979/vim-visual-multi'
-
-  Plug 'airblade/vim-gitgutter'
-
-  "premier Vim plugin for Git
-  Plug 'tpope/vim-fugitive'
-  "Hub part of git. e.g. GBrowse
-  Plug 'tpope/vim-rhubarb'
-
-  "One second to read GitHub code
-  Plug 'drzel/vim-repo-edit'
-
-  Plug 'tonchis/vim-to-github'
-
-  " https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt
-  Plug 'tpope/vim-unimpaired'
-
-  Plug 'qpkorr/vim-bufkill'
-  Plug 'Asheq/close-buffers.vim'
-
-  Plug 'dyng/ctrlsf.vim'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
-
-  Plug 'chiedo/vim-case-convert'
-
-  Plug 'xolox/vim-misc'
-  Plug 'xolox/vim-notes'
-
-  Plug 'mileszs/ack.vim'
-  Plug 'stefandtw/quickfix-reflector.vim'
-
-  Plug 'airblade/vim-rooter'
-
-  Plug 'gosukiwi/vim-atom-dark'
-  Plug 'joshdick/onedark.vim'
-  Plug 'mhinz/vim-janah'
-  Plug 'nanotech/jellybeans.vim'
-  Plug 'morhetz/gruvbox'
-  Plug 'lifepillar/vim-solarized8'
-  Plug 'blueshirts/darcula'
-  Plug 'altercation/vim-colors-solarized'
-  Plug 'crusoexia/vim-monokai'
-  Plug 'Rigellute/rigel'
-  Plug 'mhartington/oceanic-next'
-  Plug 'hzchirs/vim-material'
-  Plug 'tomasr/molokai'
-  Plug 'kmszk/skyknight'
-  Plug 'smallwat3r/vim-efficient'
-  Plug 'andreypopp/vim-colors-plain'
-  Plug 'carakan/new-railscasts-theme'
-  Plug 'jpo/vim-railscasts-theme'
-  Plug 'bluz71/vim-nightfly-guicolors'
-  Plug 'easymotion/vim-easymotion'
-  Plug 'NLKNguyen/papercolor-theme'
-  Plug 'patstockwell/vim-monokai-tasty'
-  Plug 'miyakogi/slateblue.vim'
-  Plug 'wuelnerdotexe/vim-enfocado'
-  Plug 'sonph/onehalf', { 'rtp': 'vim' }
-
-  " multiple syntax highlight
-  Plug 'sheerun/vim-polyglot'
-
-  Plug 'crusoexia/vim-javascript-lib'
-call plug#end()
-
-" let g:airline_theme = 'enfocado'
-" let g:enfocado_style = 'nature' " nature | neon
-" colorscheme enfocado
+let g:gutentags_file_list_command = 'rg --files'
 
 "vim-rooter
   let g:rooter_patterns = ['.git', 'Makefile', 'Gemfile']
@@ -188,6 +38,8 @@ call plug#end()
   let g:EasyMotion_smartcase = 1
 
 "fzf settings => BEGIN
+  set rtp+=~/.fzf
+
   function! s:build_quickfix_list(lines)
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
     copen
@@ -501,31 +353,6 @@ end
 "remove scrollbars (macvim)
 set guioptions=
 
-" sublimemonokai
-let g:sublimemonokai_term_italic = 1
-
-" 'jellybeans'
-let g:jellybeans_use_term_italics = 1
-let g:jellybeans_use_lowcolor_black = 1
-" let g:jellybeans_overrides = {
-" \    'MatchParen': { 'guifg': 'dd0093', 'guibg': '000000',
-" \    'ctermfg': 'Magenta', 'ctermbg': '' },
- " \}
-
-let g:monokai_term_italic = 1
-let g:monokai_gui_italic = 1
-
-" colorscheme onedark
-" colorscheme solarized8_high
-" colorscheme molokai
-colorscheme new-railscasts
-
-autocmd ColorScheme janah highlight Normal ctermbg=235
-" colorscheme janah
-
-let g:gruvbox_contrast_dark = 'hard'
-" colorscheme gruvbox
-
 "send last clipboard to port mapped to local computer
 function! SendToClipboard(content)
   call system('nc -q0 localhost 2224', a:content)
@@ -556,3 +383,38 @@ set conceallevel=0
 "hi SpellCap cterm=underline ctermfg=grey
 "hi SpellRare cterm=underline ctermfg=grey
 set hlsearch
+
+" sublimemonokai
+" let g:sublimemonokai_term_italic = 1
+
+" 'jellybeans'
+" let g:jellybeans_use_term_italics = 1
+" let g:jellybeans_use_lowcolor_black = 1
+" let g:jellybeans_overrides = {
+" \    'MatchParen': { 'guifg': 'dd0093', 'guibg': '000000',
+" \    'ctermfg': 'Magenta', 'ctermbg': '' },
+ " \}
+
+" let g:monokai_term_italic = 1
+" let g:monokai_gui_italic = 1
+
+" autocmd ColorScheme janah highlight Normal ctermbg=235
+" colorscheme janah
+
+" let g:gruvbox_contrast_dark = 'hard'
+" colorscheme gruvbox
+
+" colorscheme onedark
+" colorscheme solarized8_high
+" colorscheme molokai
+" colorscheme 'new-railscasts'
+
+" let g:airline_theme = 'enfocado'
+" let g:enfocado_style = 'nature' " nature | neon
+" colorscheme enfocado
+
+packadd! dracula_pro
+
+let g:dracula_colorterm = 0
+
+colorscheme dracula_pro
